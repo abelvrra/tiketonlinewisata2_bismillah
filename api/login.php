@@ -3,10 +3,10 @@ session_start(); // Wajib di baris paling atas!
 include "config.php";
 
 if(isset($_POST['login'])){
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $email = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = md5($_POST['password']);
 
-    $query = mysqli_query($conn, "SELECT * FROM users WHERE email='$email' AND password='$password'");
+    $query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email' AND password='$password'");
 
     if(mysqli_num_rows($query) > 0){
         $data = mysqli_fetch_assoc($query);
