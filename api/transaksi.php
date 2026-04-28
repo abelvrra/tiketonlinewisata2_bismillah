@@ -11,7 +11,7 @@ if(!isset($_SESSION['nama'])){
 $nama_user = $_SESSION['nama'];
 
 // Ambil data transaksi milik user yang sedang login
-$query = mysqli_query($conn, "SELECT * FROM laporan_pesanan WHERE nama_user = '$nama_user' ORDER BY id_pesanan DESC");
+$query = mysqli_query($koneksi, "SELECT * FROM laporan_pesanan WHERE nama_user = '$nama_user' ORDER BY id_pesanan DESC");
 ?>
 
 <!DOCTYPE html>
