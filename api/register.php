@@ -2,11 +2,11 @@
 include "config.php";
 
 if (isset($_POST['register'])) {
-    $nama     = mysqli_real_escape_string($conn, $_POST['nama']);
-    $email    = mysqli_real_escape_string($conn, $_POST['email']);
+    $nama     = mysqli_real_escape_string($koneksi, $_POST['nama']);
+    $email    = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = md5($_POST['password']);
 
-    $cek_email = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
+    $cek_email = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email'");
 
     if (mysqli_num_rows($cek_email) > 0) {
         echo "<script>alert('Email sudah digunakan!');</script>";
@@ -14,10 +14,10 @@ if (isset($_POST['register'])) {
         $query = "INSERT INTO users (nama, email, password, role, foto)
                   VALUES ('$nama', '$email', '$password', 'user', 'default.jpg')";
 
-        if (mysqli_query($conn, $query)) {
+        if (mysqli_query($koneksi, $query)) {
             echo "<script>alert('Register berhasil, silahkan login'); window.location='login.php';</script>";
         } else {
-            echo "Gagal daftar: " . mysqli_error($conn);
+            echo "Gagal daftar: " . mysqli_error($koneksi);
         }
     }
 }
