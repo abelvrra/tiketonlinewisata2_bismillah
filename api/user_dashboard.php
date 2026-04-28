@@ -45,7 +45,7 @@ if(!isset($_SESSION['nama']) || $_SESSION['role'] != 'user'){
    <div class="row">
     <?php
     // Mengambil data dari tabel tempat_wisata
-    $get_wisata = mysqli_query($conn, "SELECT * FROM tempat_wisata");
+    $get_wisata = mysqli_query($koneksi, "SELECT * FROM tempat_wisata");
     if($get_wisata && mysqli_num_rows($get_wisata) > 0){
         while($data = mysqli_fetch_assoc($get_wisata)) :
     ?>
