@@ -10,12 +10,12 @@ if(!isset($_SESSION['nama'])){
 
 // 2. Ambil data terbaru user
 $nama_saat_ini = $_SESSION['nama'];
-$query = mysqli_query($conn, "SELECT * FROM users WHERE nama='$nama_saat_ini'");
+$query = mysqli_query($koneksi, "SELECT * FROM users WHERE nama='$nama_saat_ini'");
 $data = mysqli_fetch_assoc($query);
 
 // 3. Proses Update Profil
 if(isset($_POST['update_profil'])){
-    $nama_baru = mysqli_real_escape_string($conn, $_POST['nama']);
+    $nama_baru = mysqli_real_escape_string($koneksi, $_POST['nama']);
     $nama_file = $_FILES['foto']['name'];
     $tmp_name = $_FILES['foto']['tmp_name'];
     $folder_tujuan = 'img/';
@@ -32,7 +32,7 @@ if(isset($_POST['update_profil'])){
         $sql = "UPDATE users SET nama='$nama_baru' WHERE nama='$nama_saat_ini'";
     }
 
-    if(mysqli_query($conn, $sql)){
+    if(mysqli_query($koneksi, $sql)){
         $_SESSION['nama'] = $nama_baru;
         echo "<script>alert('Profil berhasil diperbarui!'); window.location='profil.php';</script>";
     }
