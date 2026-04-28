@@ -1,0 +1,97 @@
+<?php
+session_start();
+include "config.php";
+
+// Jika sudah login, bisa langsung diarahkan ke dashboard masing-masing
+if(isset($_SESSION['role'])){
+    if($_SESSION['role'] == 'admin'){
+        header("Location: admin_dashboard.php");
+    } else {
+        header("Location: user_dashboard.php");
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Selamat Datang di Tiket Wisata</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        .card-wisata {
+            border: none;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+        .card-wisata:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"><i class="fas fa-ticket-alt"></i> TiketWisata</a>
+            <div class="ms-auto">
+                <a href="api/login.php" class="btn btn-outline-light me-2">Login</a>
+                <a href="api/register.php" class="btn btn-primary">Daftar Sekarang</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="container">
+            <h1 class="display-3 fw-bold">Jelajahi Keindahan Indonesia</h1>
+            <p class="lead">Pesan tiket wisata impianmu dengan mudah, cepat, dan aman.</p>
+            <a href="#destinasi" class="btn btn-lg btn-warning mt-3">Lihat Destinasi</a>
+        </div>
+    </header>
+
+    <div class="container my-5" id="destinasi">
+        <h2 class="text-center fw-bold mb-4">Destinasi Terpopuler</h2>
+        <div class="row">
+            <?php
+// Ambil data dari tabel tempat_wisata
+$query = mysqli_query($conn, "SELECT * FROM tempat_wisata");
+
+// CEK: Jika query BERHASIL dan JUMLAH DATA lebih dari 0
+if ($query && mysqli_num_rows($query) > 0) {
+    while($row = mysqli_fetch_assoc($query)):
+?>
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 p-3">
+            <h5><?php echo $row['nama_wisata']; ?></h5>
+            <p>Harga: Rp<?php echo number_format($row['harga']); ?></p>
+        </div>
+    </div>
+<?php 
+    endwhile; 
+} else {
+    // Pesan jika tabel kosong atau query bermasalah
+    echo "<p class='text-center text-muted'>Belum ada destinasi wisata tersedia.</p>";
+}
+?>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2026 TiketWisata - Sistem Reservasi Online</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
