@@ -7,10 +7,10 @@ $user = "root";
 $pass = "";
 $db   = "tiket_db";
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$koneksi = mysqli_connect($host, $user, $pass, $db);
 
 // Cek Koneksi
-if(!$conn){
+if(!$koneksi){
     die("Koneksi gagal: " . mysqli_connect_error());
 }
 
@@ -22,13 +22,13 @@ $harga     = $_GET['harga'];
 
 // 3. Masukkan ke Database
 $query = "INSERT INTO laporan_pesanan (nama_user, nama_wisata, harga) VALUES ('$nama_user', '$wisata', '$harga')";
-$insert = mysqli_query($conn, $query);
+$insert = mysqli_query($koneksi, $query);
 
 // 4. Cek Berhasil atau Tidak
 if($insert) {
     echo "<script>alert('Pemesanan Berhasil!'); window.location='transaksi.php';</script>";
 } else {
     // Jika error, tampilkan pesan errornya apa
-    echo "Gagal menyimpan: " . mysqli_error($conn);
+    echo "Gagal menyimpan: " . mysqli_error($koneksi);
 }
 ?>
