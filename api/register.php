@@ -15,7 +15,7 @@ if (isset($_POST['register'])) {
                   VALUES ('$nama', '$email', '$password', 'user', 'default.jpg')";
 
         if (mysqli_query($koneksi, $query)) {
-            echo "<script>alert('Register berhasil, silahkan login'); window.location='login.php';</script>";
+            echo "<script>alert('Register berhasil, silahkan login'); window.location='api/login.php';</script>";
         } else {
             echo "Gagal daftar: " . mysqli_error($koneksi);
         }
@@ -40,7 +40,7 @@ if (isset($_POST['register'])) {
                 <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
                 <button name="register" class="btn btn-success w-100">Daftar</button>
             </form>
-            <p class="text-center mt-3">Sudah punya akun? <a href="login.php">Login</a></p>
+            <p class="text-center mt-3">Sudah punya akun? <a href="api/login.php">Login</a></p>
         </div>
     </div>
 </body>
