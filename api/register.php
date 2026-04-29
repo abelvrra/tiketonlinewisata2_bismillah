@@ -1,11 +1,11 @@
 <?php
-// Gunakan path langsung karena file config.php sejajar di dalam folder api
-include "config.php"; 
+// Gunakan path langsung karena file koneksi.php sejajar di dalam folder api
+include "koneksi.php"; 
 
 if (isset($_POST['register'])) {
     // Tambahkan pengecekan ini untuk memastikan koneksi benar-benar masuk
     if (!isset($koneksi)) {
-        die("Error: Variabel konesi tidak ditemukan. Pastikan file config.php sudah benar.");
+        die("Error: Variabel konesi tidak ditemukan. Pastikan file koneksi.php sudah benar.");
     }
 
     $nama     = mysqli_real_escape_string($koneksi, $_POST['nama']);
