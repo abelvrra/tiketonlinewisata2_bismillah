@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "config.php";
+include "api/config.php";
 
 // Proteksi: Jika belum login, dialihkan ke login.php
 if(!isset($_SESSION['nama'])){
