@@ -1,10 +1,10 @@
 <?php
 session_start();
-include "config.php";
+include "api/config.php";
 
 // Jika sudah login, bisa langsung diarahkan ke dashboard masing-masing
-if(isset($_SESSION['role'])){
-    if($_SESSION['role'] == 'admin'){
+if(isset($_COOKIE['role'])){
+    if($_COOKIE['role'] == 'admin'){
         header("Location: admin_dashboard.php");
     } else {
         header("Location: user_dashboard.php");
@@ -62,13 +62,13 @@ if(isset($_SESSION['role'])){
     <div class="container my-5" id="destinasi">
         <h2 class="text-center fw-bold mb-4">Destinasi Terpopuler</h2>
         <div class="row">
-            <?php
+<?php
 // Ambil data dari tabel tempat_wisata
-$query = mysqli_query($koneksi, "SELECT * FROM tempat_wisata");
+        $query = mysqli_query($koneksi, "SELECT * FROM tempat_wisata");
 
 // CEK: Jika query BERHASIL dan JUMLAH DATA lebih dari 0
-if ($query && mysqli_num_rows($query) > 0) {
-    while($row = mysqli_fetch_assoc($query)):
+    if ($query && mysqli_num_rows($query) > 0) {
+        while($row = mysqli_fetch_assoc($query)):
 ?>
     <div class="col-md-4 mb-4">
         <div class="card shadow-sm border-0 p-3">
