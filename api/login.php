@@ -1,6 +1,6 @@
 <?php
 session_start(); // Wajib di baris paling atas!
-include "config.php";
+include "api/config.php";
 
 if(isset($_POST['login'])){
     $email = mysqli_real_escape_string($koneksi, $_POST['email']);
