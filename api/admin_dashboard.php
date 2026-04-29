@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "api/koneksi.php";
+include "koneksi.php";
 
 // 1. PROTEKSI: Cek apakah sudah login DAN apakah dia admin
 if(!isset($_COOKIE['login']) || $_COOKIE['role'] != 'admin'){

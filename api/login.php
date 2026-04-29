@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "api/koneksi.php"; 
+include "koneksi.php"; 
 
 // --- BAGIAN 1: CEK COOKIE SAAT HALAMAN DIBUKA ---
 if (!isset($_COOKIE['login']) && isset($_COOKIE['id']) && isset($_COOKIE['key'])) {

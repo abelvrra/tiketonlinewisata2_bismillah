@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "api/koneksi.php";
+include "koneksi.php";
 
 // 1. Proteksi halaman
 if(!isset($_COOKIE['login'])){

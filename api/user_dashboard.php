@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "api/koneksi.php";
+include "koneksi.php";
 
 // Proteksi: Hanya User yang boleh masuk
 if(!isset($_COOKIE['nama']) || $_COOKIE['role'] != 'user'){
