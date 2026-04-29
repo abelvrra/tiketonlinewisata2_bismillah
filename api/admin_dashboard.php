@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "api/config.php";
+include "api/koneksi.php";
 
 // 1. PROTEKSI: Cek apakah sudah login DAN apakah dia admin
 if(!isset($_COOKIE['login']) || $_COOKIE['role'] != 'admin'){
@@ -10,23 +10,23 @@ if(!isset($_COOKIE['login']) || $_COOKIE['role'] != 'admin'){
 
 // 2. LOGIKA SIMPAN DESTINASI (Ke tabel tempat_wisata)
 if(isset($_POST['tambah_wisata'])){
-    $nama = mysqli_real_escape_string($config, $_POST['nama_wisata']);
+    $nama = mysqli_real_escape_string($koneksi, $_POST['nama_wisata']);
     $harga = $_POST['harga'];
     
     // Query simpan tanpa kolom 'ikon' agar aman dari error kolom tidak ditemukan
     $query_tambah = "INSERT INTO tempat_wisata (nama_wisata, harga) VALUES ('$nama', '$harga')";
     
-    if(mysqli_query($config, $query_tambah)){
+    if(mysqli_query($koneksi, $query_tambah)){
         echo "<script>alert('Destinasi Berhasil Disimpan!'); window.location='admin_dashboard.php';</script>";
     } else {
-        echo "Gagal menyimpan ke tempat_wisata: " . mysqli_error($config);
+        echo "Gagal menyimpan ke tempat_wisata: " . mysqli_error($koneksi);
     }
 }
 
 // 3. LOGIKA HAPUS DESTINASI
 if(isset($_GET['hapus'])){
     $id = $_GET['hapus'];
-    mysqli_query($config, "DELETE FROM tempat_wisata WHERE id_wisata=$id");
+    mysqli_query($koneksi, "DELETE FROM tempat_wisata WHERE id_wisata=$id");
     header("Location: admin_dashboard.php");
 }
 
@@ -92,7 +92,7 @@ $api_weather = "Cerah - 29°C";
                             </thead>
                             <tbody>
                                 <?php 
-                                $query_tampil = mysqli_query($config, "SELECT * FROM tempat_wisata ORDER BY id_wisata DESC");
+                                $query_tampil = mysqli_query($koneksi, "SELECT * FROM tempat_wisata ORDER BY id_wisata DESC");
                                 if(mysqli_num_rows($query_tampil) > 0){
                                     while($row = mysqli_fetch_assoc($query_tampil)) : ?>
                                     <tr>
@@ -127,7 +127,7 @@ $api_weather = "Cerah - 29°C";
                                 <?php 
                                 $no = 1;
                                 // Pastikan Anda sudah membuat tabel 'pesanan' atau 'laporan_pesanan' di database
-                                $query_laporan = mysqli_query($config, "SELECT * FROM laporan_pesanan ORDER BY id_pesanan DESC");
+                                $query_laporan = mysqli_query($koneksi, "SELECT * FROM laporan_pesanan ORDER BY id_pesanan DESC");
                                 if($query_laporan && mysqli_num_rows($query_laporan) > 0){
                                     while($lap = mysqli_fetch_assoc($query_laporan)) : ?>
                                     <tr>

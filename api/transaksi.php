@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "api/config.php";
+include "api/koneksi.php";
 
 // Proteksi: Jika belum login, dialihkan ke login.php
 if(!isset($_COOKIE['nama'])){
@@ -11,7 +11,7 @@ if(!isset($_COOKIE['nama'])){
 $nama_user = $_COOKIE['nama'];
 
 // Ambil data transaksi milik user yang sedang login
-$query = mysqli_query($config, "SELECT * FROM laporan_pesanan WHERE nama_user = '$nama_user' ORDER BY id_pesanan DESC");
+$query = mysqli_query($koneksi, "SELECT * FROM laporan_pesanan WHERE nama_user = '$nama_user' ORDER BY id_pesanan DESC");
 ?>
 
 <!DOCTYPE html>

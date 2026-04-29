@@ -7,14 +7,14 @@ $pass = 'mp8wHRhxGDCJTqny';
 $db   = 'tiketwisataa';
 
 // Inisialisasi mysqli
-$config = mysqli_init();
+$koneksi = mysqli_init();
 
 // Menambahkan pengaturan SSL (Wajib untuk TiDB Serverless)
-mysqli_ssl_set($config, NULL, NULL, NULL, NULL, NULL);
+mysqli_ssl_set($koneksi, NULL, NULL, NULL, NULL, NULL);
 
 // Melakukan koneksi
 $real_connect = mysqli_real_connect(
-    $config, 
+    $koneksi, 
     $host, 
     $user, 
     $pass, 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "api/config.php"; 
+include "api/koneksi.php"; 
 
 // --- BAGIAN 1: CEK COOKIE SAAT HALAMAN DIBUKA ---
 if (!isset($_COOKIE['login']) && isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
@@ -8,7 +8,7 @@ if (!isset($_COOKIE['login']) && isset($_COOKIE['id']) && isset($_COOKIE['key'])
     $key = $_COOKIE['key'];
 
     // Ambil data user berdasarkan id cookie
-    $result = mysqli_query($config, "SELECT * FROM users WHERE id_user = '$id'");
+    $result = mysqli_query($koneksi, "SELECT * FROM users WHERE id_user = '$id'");
     $data = mysqli_fetch_assoc($result);
 
     // Cek apakah 'key' (hash email) di cookie cocok dengan di database
@@ -26,10 +26,10 @@ if (isset($_COOKIE['login'])) {
 }
 
 if (isset($_POST['login'])) {
-    $email = mysqli_real_escape_string($config, $_POST['email']);
+    $email = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = md5($_POST['password']);
 
-    $query = mysqli_query($config, "SELECT * FROM users WHERE email='$email' AND password='$password'");
+    $query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email' AND password='$password'");
 
     if (mysqli_num_rows($query) > 0) {
         $data = mysqli_fetch_assoc($query);
