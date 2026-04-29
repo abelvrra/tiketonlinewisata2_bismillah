@@ -1,8 +1,8 @@
-<?php
+<?php 
 session_start();
 include "api/config.php";
 
-// Jika sudah login, bisa langsung diarahkan ke dashboard masing-masing
+// Redirect kalau sudah login
 if(isset($_COOKIE['role'])){
     if($_COOKIE['role'] == 'admin'){
         header("Location: admin_dashboard.php");
@@ -16,62 +16,128 @@ if(isset($_COOKIE['role'])){
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Datang di Tiket Wisata</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 100px 0;
+            padding: 120px 20px;
             text-align: center;
         }
+
         .card-wisata {
             border: none;
             border-radius: 15px;
             transition: 0.3s;
         }
+
         .card-wisata:hover {
             transform: translateY(-10px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
+
+        /* RESPONSIVE MOBILE */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 20px;
+            }
+
+            .hero-section h1 {
+                font-size: 28px;
+            }
+
+            .hero-section p {
+                font-size: 14px;
+            }
+
+            .hero-section .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#"><i class="fas fa-ticket-alt"></i> TiketWisata</a>
-            <div class="ms-auto">
-                <a href="api/login.php" class="btn btn-outline-light me-2">Login</a>
-                <a href="api/register.php" class="btn btn-primary">Daftar Sekarang</a>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="fas fa-ticket-alt"></i> TiketWisata
+        </a>
+
+        <!-- Hamburger -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div class="mt-3 mt-lg-0">
+                <a href="api/login.php" class="btn btn-outline-light me-2 w-100 w-lg-auto mb-2 mb-lg-0">Login</a>
+                <a href="api/register.php" class="btn btn-primary w-100 w-lg-auto">Daftar</a>
             </div>
         </div>
-    </nav>
-
-    <header class="hero-section">
-        <div class="container">
-            <h1 class="display-3 fw-bold">Jelajahi Keindahan Indonesia</h1>
-            <p class="lead">Pesan tiket wisata impianmu dengan mudah, cepat, dan aman.</p>
-            <a href="#destinasi" class="btn btn-lg btn-warning mt-3">Lihat Destinasi</a>
-        </div>
-    </header>
-
-    <div class="container my-5" id="destinasi">
-        <h2 class="text-center fw-bold mb-4">Destinasi Terpopuler</h2>
-        <div class="row">   
-
-        </div>
     </div>
+</nav>
 
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2026 TiketWisata - Sistem Reservasi Online</p>
+<!-- HERO -->
+<header class="hero-section">
+    <div class="container">
+        <h1 class="fw-bold display-5 display-md-3">
+            Jelajahi Keindahan Indonesia
+        </h1>
+        <p class="lead">
+            Pesan tiket wisata impianmu dengan mudah, cepat, dan aman.
+        </p>
+        <a href="#destinasi" class="btn btn-lg btn-warning mt-3">
+            Lihat Destinasi
+        </a>
+    </div>
+</header>
+
+<!-- DESTINASI -->
+<div class="container my-5" id="destinasi">
+    <h2 class="text-center fw-bold mb-4">Destinasi Terpopuler</h2>
+
+    <div class="row g-4">
+        <!-- Contoh Card -->
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card card-wisata">
+                <img src="https://source.unsplash.com/400x300/?beach" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Pantai Indah</h5>
+                    <p class="card-text">Lokasi: Bali</p>
+                    <p class="fw-bold text-primary">Rp 50.000</p>
+                    <a href="#" class="btn btn-success w-100">Pesan Tiket</a>
+                </div>
+            </div>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Tambah card lain di sini -->
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2026 TiketWisata - Sistem Reservasi Online</p>
+    </div>
+</footer>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
