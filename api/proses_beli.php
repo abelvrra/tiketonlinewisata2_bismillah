@@ -1,14 +1,6 @@
 <?php
 session_start();
-
-// 1. Konfigurasi Koneksi
-$host = 'gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com';
-$port = '4000';
-$user = 'P7XeBV3d3Tn59Mu.root';
-$pass = 'mp8wHRhxGDCJTqny';
-$db   = 'tiketwisataa';
-
-$koneksi = mysqli_connect($host, $port, $user, $pass, $db);
+include 'koneksi.php';
 
 // Cek Koneksi
 if(!$koneksi){
