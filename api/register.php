@@ -1,7 +1,13 @@
 <?php
-include "config.php";
+// Gunakan path langsung karena file config.php sejajar di dalam folder api
+include "config.php"; 
 
 if (isset($_POST['register'])) {
+    // Tambahkan pengecekan ini untuk memastikan koneksi benar-benar masuk
+    if (!isset($koneksi)) {
+        die("Error: Variabel konesi tidak ditemukan. Pastikan file config.php sudah benar.");
+    }
+
     $nama     = mysqli_real_escape_string($koneksi, $_POST['nama']);
     $email    = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = md5($_POST['password']);
@@ -11,6 +17,7 @@ if (isset($_POST['register'])) {
     if (mysqli_num_rows($cek_email) > 0) {
         echo "<script>alert('Email sudah digunakan!');</script>";
     } else {
+        // Gunakan id_user atau id (sesuaikan dengan nama kolom di database kamu)
         $query = "INSERT INTO users (nama, email, password, role, foto)
                   VALUES ('$nama', '$email', '$password', 'user', 'default.jpg')";
 
@@ -22,6 +29,7 @@ if (isset($_POST['register'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
