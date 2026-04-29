@@ -54,9 +54,8 @@ if (isset($_POST['login'])) {
         setcookie('login', '1',              time() + 3600, "/");
         setcookie('nama',  $data['nama'],    time() + 3600, "/");
         setcookie('role',  $data['role'],    time() + 3600, "/");
-        setcookie('id',    $data['id_user'], time() + 3600, "/");
-        setcookie('key',   hash('sha256', $data['email']), time() + 3600, "/");
-
+        setcookie('id',    $data['id'],      time() + 3600, "/");
+        
         if ($data['role'] == 'admin') {
             header("Location: admin_dashboard.php");
         } else {
