@@ -61,20 +61,7 @@ if(isset($_COOKIE['role'])){
 
     <div class="container my-5" id="destinasi">
         <h2 class="text-center fw-bold mb-4">Destinasi Terpopuler</h2>
-        <div class="row">
-<?php
-// Ambil data dari tabel tempat_wisata
-        $query = mysqli_query($koneksi, "SELECT * FROM tempat_wisata");
-
-// CEK: Jika query BERHASIL dan JUMLAH DATA lebih dari 0
-    if ($query && mysqli_num_rows($query) > 0) 
-        while($row = mysqli_fetch_assoc($query)):
-?>
-    <div class="col-md-4 mb-4">
-        <div class="card shadow-sm border-0 p-3">
-            <h5><?php echo $row['nama_wisata']; ?></h5>
-        </div>
-    </div>
+        <div class="row">   
 
         </div>
     </div>
