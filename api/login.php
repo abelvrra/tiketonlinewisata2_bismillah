@@ -1,48 +1,61 @@
 <?php
 session_start();
-include "koneksi.php"; 
+include "koneksi.php";
 
 // --- BAGIAN 1: CEK COOKIE SAAT HALAMAN DIBUKA ---
 if (!isset($_COOKIE['login']) && isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
-    $id = $_COOKIE['id'];
+    $id  = mysqli_real_escape_string($koneksi, $_COOKIE['id']);
     $key = $_COOKIE['key'];
 
-    // Ambil data user berdasarkan id cookie
     $result = mysqli_query($koneksi, "SELECT * FROM users WHERE id_user = '$id'");
-    $data = mysqli_fetch_assoc($result);
 
-    // Cek apakah 'key' (hash email) di cookie cocok dengan di database
-    if ($key === hash('sha256', $data['email'])) {
-        $_COOKIE['login'] = true;
-        $_COOKIE['nama'] = $data['nama'];
-        $_COOKIE['role'] = $data['role'];
+    if ($result && mysqli_num_rows($result) > 0) {
+        $data = mysqli_fetch_assoc($result);
+
+        if ($key === hash('sha256', $data['email'])) {
+            // Perpanjang cookie
+            setcookie('login', '1',              time() + 3600, "/");
+            setcookie('nama',  $data['nama'],    time() + 3600, "/");
+            setcookie('role',  $data['role'],    time() + 3600, "/");
+
+            // Langsung redirect
+            if ($data['role'] == 'admin') {
+                header("Location: admin_dashboard.php");
+            } else {
+                header("Location: user_dashboard.php");
+            }
+            exit;
+        }
     }
 }
 
-// Jika sudah ada session login, langsung lempar ke dashboard
-if (isset($_COOKIE['login'])) {
-    header("Location: user_dashboard.php");
+// Jika sudah ada cookie login, langsung redirect
+if (isset($_COOKIE['login']) && $_COOKIE['login'] === '1') {
+    $role = $_COOKIE['role'] ?? '';
+    if ($role == 'admin') {
+        header("Location: admin_dashboard.php");
+    } else {
+        header("Location: user_dashboard.php");
+    }
     exit;
 }
 
+// --- BAGIAN 2: PROSES FORM LOGIN ---
 if (isset($_POST['login'])) {
-    $email = mysqli_real_escape_string($koneksi, $_POST['email']);
+    $email    = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = md5($_POST['password']);
 
     $query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email' AND password='$password'");
 
-    if (mysqli_num_rows($query) > 0) {
+    if ($query && mysqli_num_rows($query) > 0) {
         $data = mysqli_fetch_assoc($query);
 
-        // Set Session standar
-        $_COOKIE['login'] = true;
-        $_COOKIE['nama'] = $data['nama'];
-        $_COOKIE['role'] = $data['role'];
-
-        // --- BAGIAN 2: BUAT COOKIE (Remember Me) ---
-        // Kita simpan selama 1 jam (3600 detik). Bisa diganti ke 30 hari (3600 * 24 * 30)
-        setcookie('id', $data['id_user'], time() + 3600, "/");
-        setcookie('key', hash('sha256', $data['email']), time() + 3600, "/");
+        // Set cookie login
+        setcookie('login', '1',              time() + 3600, "/");
+        setcookie('nama',  $data['nama'],    time() + 3600, "/");
+        setcookie('role',  $data['role'],    time() + 3600, "/");
+        setcookie('id',    $data['id_user'], time() + 3600, "/");
+        setcookie('key',   hash('sha256', $data['email']), time() + 3600, "/");
 
         if ($data['role'] == 'admin') {
             header("Location: admin_dashboard.php");
@@ -51,7 +64,7 @@ if (isset($_POST['login'])) {
         }
         exit;
     } else {
-        echo "<script>alert('Email atau Password salah!');</script>";
+        $error = "Email atau Password salah!";
     }
 }
 ?>
@@ -66,6 +79,11 @@ if (isset($_POST['login'])) {
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4 shadow-sm" style="width: 350px;">
             <h3 class="text-center fw-bold">Login</h3>
+
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger text-center py-2"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+
             <form method="POST">
                 <div class="mb-3">
                     <label>Email</label>
