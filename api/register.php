@@ -1,28 +1,40 @@
 <?php
-// Gunakan path langsung karena file koneksi.php sejajar di dalam folder api
 include "koneksi.php"; 
 
 if (isset($_POST['register'])) {
-    // Tambahkan pengecekan ini untuk memastikan koneksi benar-benar masuk
+
     if (!isset($koneksi)) {
-        die("Error: Variabel konesi tidak ditemukan. Pastikan file koneksi.php sudah benar.");
+        die("Error: Variabel koneksi tidak ditemukan.");
     }
 
     $nama     = mysqli_real_escape_string($koneksi, $_POST['nama']);
     $email    = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = md5($_POST['password']);
 
+    // Ambil domain email
+    $domain = substr(strrchr($email, "@"), 1);
+
+    // Tentukan role berdasarkan domain
+    if ($domain == "admin.com") {
+        $role = "admin";
+    } elseif ($domain == "gmail.com") {
+        $role = "user";
+    } else {
+        $role = "user"; // default
+    }
+
+    // Cek email sudah ada atau belum
     $cek_email = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email'");
 
     if (mysqli_num_rows($cek_email) > 0) {
         echo "<script>alert('Email sudah digunakan!');</script>";
     } else {
-        // Gunakan id_user atau id (sesuaikan dengan nama kolom di database kamu)
+
         $query = "INSERT INTO users (nama, email, password, role, foto)
-                  VALUES ('$nama', '$email', '$password', 'user', 'default.jpg')";
+                  VALUES ('$nama', '$email', '$password', '$role', 'default.jpg')";
 
         if (mysqli_query($koneksi, $query)) {
-            echo "<script>alert('Register berhasil, silahkan login'); window.location='login.php';</script>";
+            echo "<script>alert('Register berhasil sebagai $role'); window.location='login.php';</script>";
         } else {
             echo "Gagal daftar: " . mysqli_error($koneksi);
         }
