@@ -3,7 +3,7 @@ session_start();
 include "api/config.php"; 
 
 // --- BAGIAN 1: CEK COOKIE SAAT HALAMAN DIBUKA ---
-if (!isset($_SESSION['login']) && isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
+if (!isset($_COOKIE['login']) && isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
     $id = $_COOKIE['id'];
     $key = $_COOKIE['key'];
 
@@ -13,14 +13,14 @@ if (!isset($_SESSION['login']) && isset($_COOKIE['id']) && isset($_COOKIE['key']
 
     // Cek apakah 'key' (hash email) di cookie cocok dengan di database
     if ($key === hash('sha256', $data['email'])) {
-        $_SESSION['login'] = true;
-        $_SESSION['nama'] = $data['nama'];
-        $_SESSION['role'] = $data['role'];
+        $_COOKIE['login'] = true;
+        $_COOKIE['nama'] = $data['nama'];
+        $_COOKIE['role'] = $data['role'];
     }
 }
 
 // Jika sudah ada session login, langsung lempar ke dashboard
-if (isset($_SESSION['login'])) {
+if (isset($_COOKIE['login'])) {
     header("Location: user_dashboard.php");
     exit;
 }
@@ -35,9 +35,9 @@ if (isset($_POST['login'])) {
         $data = mysqli_fetch_assoc($query);
 
         // Set Session standar
-        $_SESSION['login'] = true;
-        $_SESSION['nama'] = $data['nama'];
-        $_SESSION['role'] = $data['role'];
+        $_COOKIE['login'] = true;
+        $_COOKIE['nama'] = $data['nama'];
+        $_COOKIE['role'] = $data['role'];
 
         // --- BAGIAN 2: BUAT COOKIE (Remember Me) ---
         // Kita simpan selama 1 jam (3600 detik). Bisa diganti ke 30 hari (3600 * 24 * 30)

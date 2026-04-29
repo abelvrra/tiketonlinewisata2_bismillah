@@ -1,9 +1,9 @@
 <?php
 session_start();
-include "config.php";
+include "api/config.php";
 
 // Proteksi: Hanya User yang boleh masuk
-if(!isset($_SESSION['nama']) || $_SESSION['role'] != 'user'){
+if(!isset($_COOKIE['nama']) || $_COOKIE['role'] != 'user'){
     header("Location: login.php");
     exit();
 }
@@ -38,7 +38,7 @@ if(!isset($_SESSION['nama']) || $_SESSION['role'] != 'user'){
 
     <div class="container">
     <div class="text-center mb-5">
-        <h2 class="fw-bold">Halo, <?php echo $_SESSION['nama']; ?>!</h2>
+        <h2 class="fw-bold">Halo, <?php echo $_COOKIE['nama']; ?>!</h2>
         <p class="text-muted">Pilih destinasi favoritmu</p>
     </div>
 

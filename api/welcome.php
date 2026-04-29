@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['nama'])){
+if(!isset($_COOKIE['nama'])){
     header("Location: login.php");
 }
 ?>
@@ -17,7 +17,7 @@ if(!isset($_SESSION['nama'])){
 
 <div class="container mt-5 text-center">
 
-<h3>Selamat datang, <?php echo $_SESSION['nama']; ?> 👋</h3>
+<h3>Selamat datang, <?php echo $_COOKIE['nama']; ?> 👋</h3>
 
 <a href="logout.php" class="btn btn-danger mt-3">Logout</a>
 

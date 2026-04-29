@@ -1,15 +1,15 @@
 <?php
 session_start();
-include "config.php";
+include "api/config.php";
 
 // 1. Proteksi halaman
-if(!isset($_SESSION['nama'])){
+if(!isset($_COOKIE['login'])){
     header("Location: login.php");
     exit();
 }
 
 // 2. Ambil data terbaru user
-$nama_saat_ini = $_SESSION['nama'];
+$nama_saat_ini = $_COOKIE['nama'];
 $query = mysqli_query($koneksi, "SELECT * FROM users WHERE nama='$nama_saat_ini'");
 $data = mysqli_fetch_assoc($query);
 
@@ -27,13 +27,13 @@ if(isset($_POST['update_profil'])){
     if(!empty($nama_file)){
         move_uploaded_file($tmp_name, $folder_tujuan . $nama_file);
         $sql = "UPDATE users SET nama='$nama_baru', foto='$nama_file' WHERE nama='$nama_saat_ini'";
-        $_SESSION['foto'] = $nama_file;
+        $_COOKIE['foto'] = $nama_file;
     } else {
         $sql = "UPDATE users SET nama='$nama_baru' WHERE nama='$nama_saat_ini'";
     }
 
     if(mysqli_query($koneksi, $sql)){
-        $_SESSION['nama'] = $nama_baru;
+        $_COOKIE['nama'] = $nama_baru;
         echo "<script>alert('Profil berhasil diperbarui!'); window.location='profil.php';</script>";
     }
 }

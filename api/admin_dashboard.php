@@ -1,9 +1,9 @@
 <?php
 session_start();
-include "config.php";
+include "api/config.php";
 
 // 1. PROTEKSI: Cek apakah sudah login DAN apakah dia admin
-if(!isset($_SESSION['nama']) || $_SESSION['role'] != 'admin'){
+if(!isset($_COOKIE['login']) || $_COOKIE['role'] != 'admin'){
     echo "<script>alert('Akses Ditolak!'); window.location='login.php';</script>";
     exit();
 }

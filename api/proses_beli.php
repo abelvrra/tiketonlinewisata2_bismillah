@@ -14,9 +14,9 @@ if(!$koneksi){
     die("Koneksi gagal: " . mysqli_connect_error());
 }
 
-// 2. Tangkap data dari URL dan Session
-// Pastikan kamu sudah login agar $_SESSION['nama'] ada isinya
-$nama_user = isset($_SESSION['nama']) ? $_SESSION['nama'] : "Guest"; 
+// 2. Tangkap data dari URL dan Cookie
+// Pastikan kamu sudah login agar $_COOKIE['nama'] ada isinya
+$nama_user = isset($_COOKIE['nama']) ? $_COOKIE['nama'] : "Guest"; 
 $wisata    = $_GET['wisata'];
 $harga     = $_GET['harga'];
 
