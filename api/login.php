@@ -1,8 +1,16 @@
 <?php
-session_start(); // Wajib di baris paling atas!
-include "api/config.php";
+session_start(); 
+
+// PERBAIKAN: Karena login.php ada di dalam folder 'api', 
+// dan config.php juga di dalam folder 'api', cukup panggil nama filenya saja.
+include "config.php"; 
 
 if(isset($_POST['login'])){
+    // Cek apakah variabel $koneksi dari config.php sudah masuk
+    if (!isset($koneksi)) {
+        die("Koneksi gagal: File config.php tidak terbaca atau variabel \$koneksi salah.");
+    }
+
     $email = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = md5($_POST['password']);
 
@@ -11,22 +19,19 @@ if(isset($_POST['login'])){
     if(mysqli_num_rows($query) > 0){
         $data = mysqli_fetch_assoc($query);
         
-        // Simpan data ke session
         $_SESSION['nama'] = $data['nama']; 
         $_SESSION['role'] = $data['role'];
         $_SESSION['foto'] = $data['foto'];
 
-        // Cek role untuk menentukan halaman tujuan
         if($data['role'] == 'admin'){
             echo "<script>alert('Login Admin Berhasil'); window.location='admin_dashboard.php';</script>";
         } else {
             echo "<script>alert('Login Berhasil'); window.location='user_dashboard.php';</script>";
         }
     } else {
-        // Tambahkan alert jika login gagal agar tidak bingung
         echo "<script>alert('Email atau Password salah!'); window.location='login.php';</script>";
     }
-} // <--- KURUNG INI YANG TADI HILANG UNTUK MENUTUP if(isset($_POST['login']))
+}
 ?>
 
 <!DOCTYPE html>
