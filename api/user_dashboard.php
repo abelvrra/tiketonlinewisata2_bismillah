@@ -28,7 +28,6 @@ if(!isset($_COOKIE['nama']) || $_COOKIE['role'] != 'user'){
         <div class="container">
             <a class="navbar-brand" href="#"><i class="fas fa-ticket-alt"></i> Tiket Wisata</a>
             <div class="navbar-nav ms-auto">
-                <a class="nav-link active" href="user_dashboard.php">Home</a>
                 <a class="nav-link" href="transaksi.php">Riwayat</a>
                 <a class="nav-link" href="profil.php">Profil Saya</a>
                 <a class="nav-link text-warning" href="logout.php">Logout</a>
