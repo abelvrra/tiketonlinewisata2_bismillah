@@ -2,12 +2,13 @@
 session_start();
 
 // 1. Konfigurasi Koneksi
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "tiket_db";
+$host = 'gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com';
+$port = '4000';
+$user = 'P7XeBV3d3Tn59Mu.root';
+$pass = 'mp8wHRhxGDCJTqny';
+$db   = 'tiketwisataa';
 
-$koneksi = mysqli_connect($host, $user, $pass, $db);
+$koneksi = mysqli_connect($host, $port, $user, $pass, $db);
 
 // Cek Koneksi
 if(!$koneksi){
