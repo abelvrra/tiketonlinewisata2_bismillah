@@ -10,7 +10,7 @@ if (!isset($_COOKIE['login'])) {
 
 // 2. Ambil data user berdasarkan ID (bukan nama!)
 $id = mysqli_real_escape_string($koneksi, $_COOKIE['id']);
-$query = mysqli_query($koneksi, "SELECT * FROM users WHERE id_user = '$id'");
+$query = mysqli_query($koneksi, "SELECT * FROM users WHERE id = '$id'");
 $data = mysqli_fetch_assoc($query);
 
 // Kalau user tidak ditemukan, paksa logout
@@ -32,9 +32,9 @@ if (isset($_POST['update_profil'])) {
 
     if (!empty($nama_file)) {
         move_uploaded_file($tmp_name, $folder_tujuan . $nama_file);
-        $sql = "UPDATE users SET nama='$nama_baru', foto='$nama_file' WHERE id_user='$id'";
+        $sql = "UPDATE users SET nama='$nama_baru', foto='$nama_file' WHERE id='$id'";
     } else {
-        $sql = "UPDATE users SET nama='$nama_baru' WHERE id_user='$id'";
+        $sql = "UPDATE users SET nama='$nama_baru' WHERE id='$id'";
     }
 
     if (mysqli_query($koneksi, $sql)) {
@@ -42,7 +42,7 @@ if (isset($_POST['update_profil'])) {
         setcookie('nama', $nama_baru, time() + 3600, "/");
 
         // Refresh $data supaya tampilan langsung update
-        $query2 = mysqli_query($koneksi, "SELECT * FROM users WHERE id_user = '$id'");
+        $query2 = mysqli_query($koneksi, "SELECT * FROM users WHERE id= '$id'");
         $data   = mysqli_fetch_assoc($query2);
 
         $sukses = "Profil berhasil diperbarui!";
